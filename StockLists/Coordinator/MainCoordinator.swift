@@ -5,13 +5,13 @@ class MainCoordinator: Coordinator, FactoryModule {
     struct Dependency {
         let stockListControllerFactory : () -> StockListController
         let stockDetailControllerFactory : (Stock) -> StockDetailController
-        let selctDateControllerFactory : () -> SelectDateController
+        let selctDateControllerFactory : (Stock) -> SelectDateController
     }
     var navigationController: UINavigationController?
     
     let rootViewController : StockListController
     let stockDetailControllerFactory : (Stock) -> StockDetailController
-    let selctDateControllerFactory : () -> SelectDateController
+    let selctDateControllerFactory : (Stock) -> SelectDateController
     
     required init(dependency: Dependency, payload: ()) {
         rootViewController  = dependency.stockListControllerFactory()
@@ -28,8 +28,9 @@ class MainCoordinator: Coordinator, FactoryModule {
         vc.coordinator = self
         navigationController?.pushViewController(vc, animated: true)
     }
-    func dateInputTextFieldTapped() {
-        let controller = selctDateControllerFactory()
-        navigationController?.pushViewController(controller, animated: true)
+    func dateInputTextFieldTapped(item : Stock) {
+        let vc = selctDateControllerFactory(item)
+        vc.coordinator = self
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

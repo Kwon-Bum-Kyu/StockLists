@@ -5,6 +5,7 @@ class StockDetailViewModel: BaseViewModel  {
     @Published var errorMessage : String?
     @Published var timeSeriesMonthlyAdjusted : TimeSeriesMonthlyAdjusted?
     @Published var stock : Stock?
+    @Published var dateText = ""
     let usecase: StockDetailUseCase
     
     func viewDidLoad(symbol : String, stock : Stock) {

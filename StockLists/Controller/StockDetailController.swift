@@ -32,6 +32,10 @@ class StockDetailController: BaseViewController, FactoryModule {
     override func viewWillDisappear(_ animated: Bool) {
         removeListeners()
     }
+    func changeDateText(text : String) {
+        print(text)
+        selfView.bottomView.dateInputView.textField.text = "12345"
+    }
     override func configureUI() {
         view.backgroundColor = .systemBackground
         title = "Detail"
@@ -67,6 +71,7 @@ class StockDetailController: BaseViewController, FactoryModule {
         viewModel.$loading.sink{loading in
             self.selfView.loadingView.isHidden = !loading
         }.store(in: &subscriber)
+        
     }
 }
 
@@ -74,7 +79,7 @@ extension StockDetailController : UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField : UITextField) -> Bool {
         
         if textField == selfView.bottomView.dateInputView.textField {
-            coordinator?.dateInputTextFieldTapped()
+            coordinator?.dateInputTextFieldTapped(item: stock)
             return false
         }
         return true
