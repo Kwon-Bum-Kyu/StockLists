@@ -5,7 +5,7 @@ class StockDetailViewModel: BaseViewModel  {
     @Published var errorMessage : String?
     @Published var timeSeriesMonthlyAdjusted : TimeSeriesMonthlyAdjusted?
     @Published var stock : Stock?
-    @Published var dateText = ""
+    @Published var dateText : String?
     let usecase: StockDetailUseCase
     
     func viewDidLoad(symbol : String, stock : Stock) {
@@ -29,5 +29,12 @@ class StockDetailViewModel: BaseViewModel  {
     init(usecase: StockDetailUseCase) {
         self.usecase = usecase
         super.init()
+    }
+    func changeDateText(text : String?) {
+        if let name = text {
+            dateText = name
+        }
+        
+        print("11111 : \(dateText)")
     }
 }

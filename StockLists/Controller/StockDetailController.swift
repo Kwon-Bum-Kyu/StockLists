@@ -10,7 +10,7 @@ class StockDetailController: BaseViewController, FactoryModule {
     let stock : Stock
     let viewModel : StockDetailViewModel
     var coordinator : MainCoordinator?
-    
+    var dateText : String?
     required init(dependency : Dependency , payload : ()) {
         stock = dependency.stock
         viewModel = dependency.viewModel
@@ -26,16 +26,19 @@ class StockDetailController: BaseViewController, FactoryModule {
         fatalError("init(coder:) has not been implemented")
     }
     override func viewWillAppear(_ animated: Bool) {
+        viewModel.$dateText.sink{text in
+            print("222222 : \(text)")
+            self.selfView.bottomView.dateInputView.textField.text = "21345"
+        }.store(in: &subscriber)
+//        print(viewModel.dateText)
+//        self.selfView.bottomView.dateInputView.textField.text = viewModel.dateText
         enableScrollWhenKeyboardAppeared(scrollView: selfView.scrollView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         removeListeners()
     }
-    func changeDateText(text : String) {
-        print(text)
-        selfView.bottomView.dateInputView.textField.text = "12345"
-    }
+   
     override func configureUI() {
         view.backgroundColor = .systemBackground
         title = "Detail"
@@ -71,6 +74,8 @@ class StockDetailController: BaseViewController, FactoryModule {
         viewModel.$loading.sink{loading in
             self.selfView.loadingView.isHidden = !loading
         }.store(in: &subscriber)
+        
+        
         
     }
 }

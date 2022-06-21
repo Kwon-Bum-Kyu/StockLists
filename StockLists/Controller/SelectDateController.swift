@@ -8,13 +8,18 @@ class SelectDateController: BaseViewController, FactoryModule {
     }
     let stockDateView = StockDateView()
     let stock : Stock
-    let viewModel : StockDetailController
+//    let viewModel : StockDetailController
+    
+    let stockRepository :  StockRepository = StockRepositoryImpi()
+    let usecase : StockDetailUseCase?
+    let viewModel : StockDetailViewModel?
     var coordinator : MainCoordinator?
     let dateFormat = DateFormatter()
 
     required init(dependency : Dependency , payload : ()) {
         stock = dependency.stock
-        viewModel = dependency.viewModel
+        usecase = .init(stockRepository: stockRepository)
+        viewModel = .init(usecase: usecase!)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,7 +49,7 @@ class SelectDateController: BaseViewController, FactoryModule {
         print("ssss : \(type(of: sender.date))")
         dateFormat.string(from: sender.date)
         print("dateFormat : \(dateFormat.string(from: sender.date))")
-        viewModel.changeDateText(text: "12345")
+        viewModel?.changeDateText(text: "12345")
 //        viewModel.dateFormator.string(from: sender.date)
         print(sender.date)
     }
